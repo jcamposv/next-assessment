@@ -88,11 +88,10 @@ export default async function Home() {
                 size="sm"
                 className="gap-0 py-0 transition-shadow duration-200 [contain-intrinsic-size:auto_330px] [content-visibility:auto] hover:shadow-lg hover:ring-foreground/20"
               >
-                <Link
-                  href={`/builder/${page.id}`}
-                  aria-label={`Edit ${page.name}`}
-                  className="rounded-t-xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                >
+                {/* The rendered page contains its own anchors (navbar, CTAs),
+                    so the edit link overlays the thumbnail instead of
+                    wrapping it — nested <a> is invalid HTML. */}
+                <div className="relative">
                   <div
                     aria-hidden
                     className="pointer-events-none aspect-[16/10] select-none overflow-hidden rounded-t-xl border-b bg-muted"
@@ -101,7 +100,12 @@ export default async function Home() {
                       <PageRenderer config={page.config} />
                     </div>
                   </div>
-                </Link>
+                  <Link
+                    href={`/builder/${page.id}`}
+                    aria-label={`Edit ${page.name}`}
+                    className="absolute inset-0 rounded-t-xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  />
+                </div>
                 <CardHeader className="py-3">
                   <div className="flex items-center justify-between gap-2">
                     <CardTitle className="truncate">{page.name}</CardTitle>
